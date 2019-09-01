@@ -21,6 +21,19 @@ o = s:option(Flag, "auto_update", translate("Auto Update"))
 o.rmempty = false
 o.description = translate("Auto Update Server subscription, GFW list and CHN route")
 
+
+
+o = s:option(ListValue, "edition", translate("V2 Edition"))
+
+o:value("4.20.0", "4.20.0")
+o:value("4.19.1", "4.19.1")
+o:value("4.18.2", "4.18.2")
+o:value("4.18.1", "4.18.1")
+o:value("4.18.0", "4.18.0")
+o.rmempty = false
+
+
+
 o = s:option(ListValue, "auto_update_time", translate("Update time (every day)"))
 for t = 0,23 do
 o:value(t, t..":00")
@@ -47,6 +60,15 @@ end
 o = s:option(DummyValue, "", "")
 o.rawhtml = true
 o.template = "shadowsocksr/update_subscribe"
+
+o = s:option(Button,"update_v2ray",translate("Upgrade V2ray"))
+o.inputstyle = "reload"
+o.write = function()
+  luci.sys.call("bash /usr/share/shadowsocksr/v2ray_update1.sh >>/tmp/ssrplus.log 2>&1")
+end
+
+
+
 
 o = s:option(Button,"delete",translate("Delete all severs"))
 o.inputstyle = "reset"

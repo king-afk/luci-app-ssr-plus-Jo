@@ -199,7 +199,11 @@ msgstr "SS SOCKS5代理"
 msgid "Appointlist List"
 msgstr "指定列表"
 
+msgid "V2 Edition"
+msgstr "V2 版本"
 
+msgid "Upgrade V2ray"
+msgstr "更新 V2ray"
 
 msgid "Server"
 msgstr "服务器"

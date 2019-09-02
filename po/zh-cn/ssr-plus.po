@@ -200,10 +200,10 @@ msgid "Appointlist List"
 msgstr "指定列表"
 
 msgid "V2 Edition"
-msgstr "V2 版本"
+msgstr "V2版本"
 
 msgid "Upgrade V2ray"
-msgstr "更新 V2ray"
+msgstr "V2ray更新"
 
 msgid "Server"
 msgstr "服务器"
@@ -217,6 +217,10 @@ msgstr "V2RAY服务端"
 msgid "Enable V2ray Update"
 msgstr "启用V2ray更新"
 
+
+
+msgid "Update_V2ray"
+msgstr "更新V2ray"
 
 msgid "Edition"
 msgstr "版本"

@@ -11,11 +11,15 @@ PKG_CONFIG_DEPENDS:= CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Server \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Socks \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Socks \
-	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Simple_Ofbs \
+	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs\
+	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs-server\
+	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_privoxy \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_V2Ray \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ChinaDNS \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_dnscrypt_proxy \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_dnsforwarder \
+	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_udp2raw-tunnel \
+	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_udpspeeder \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_haproxy
 
 include $(INCLUDE_DIR)/package.mk
@@ -31,7 +35,7 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_V2ray
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_Kcptun
 	bool "Include Kcptun"
-	default y
+	default n
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Server
 	bool "Include ShadowsocksR Server"
@@ -49,8 +53,16 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Socks
 	bool "Include Shadowsocks Socks and Tunnel"
 	default y
 
-config PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Simple_Obfs
-	bool "Include Shadowsocks Simple Obfs Plugin"
+config PACKAGE_$(PKG_NAME)_INCLUDE_privoxy
+	bool "privoxy http local"
+	default n
+
+config PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs
+	bool "simple-obfsl"
+	default n
+	
+config PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs-server
+	bool "simple-obfs-server"
 	default n
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_V2Ray
@@ -69,6 +81,14 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_dnsforwarder
 	bool "dnsforwarder"
 	default n
 
+config PACKAGE_$(PKG_NAME)_INCLUDE_udp2raw-tunnel
+	bool "udp2raw-tunnel"
+	default n
+	
+config PACKAGE_$(PKG_NAME)_INCLUDE_udpspeeder
+	bool "udpspeeder"
+	default n	
+
 config PACKAGE_$(PKG_NAME)_INCLUDE_haproxy
 	bool "haproxy"
 	default n
@@ -84,16 +104,20 @@ define Package/luci-app-ssr-plus-jo
 	DEPENDS:=+shadowsocksr-libev-alt +ipset +ip-full +iptables-mod-tproxy +dnsmasq-full +coreutils +coreutils-base64 +bash +pdnsd-alt +wget \
        +PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks:shadowsocks-libev-ss-redir \
 	+PACKAGE_$(PKG_NAME)_INCLUDE_V2ray:v2ray \
-	+PACKAGE_$(PKG_NAME)_INCLUDE_Kcptun:kcptun-client \
+	+PACKAGE_$(PKG_NAME)_INCLUDE_Kcptun:kcptun \
 	+PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Server:shadowsocksr-libev-server \
 	+PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Server:shadowsocks-libev-ss-server \
 	+PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Socks:shadowsocksr-libev-ssr-local \
 	+PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Socks:shadowsocks-libev-ss-local \
-	+PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Simple_Obfs:simple-obfs \
+	+PACKAGE_$(PKG_NAME)_INCLUDE_privoxy:privoxy \
+        +PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs:simple-obfs \
+        +PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs-server:simple-obfs-server \
 	+PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_V2Ray:v2ray-plugin \
-	+PACKAGE_$(PKG_NAME)_INCLUDE_ChinaDNS:openwrt_chinadns \
+	+PACKAGE_$(PKG_NAME)_INCLUDE_ChinaDNS:ChinaDNS \
 	+PACKAGE_$(PKG_NAME)_INCLUDE_dnscrypt_proxy:dnscrypt-proxy-full \
-	+PACKAGE_$(PKG_NAME)_INCLUDE_dnsforwarder:openwrt-dnsforwarder \
+	+PACKAGE_$(PKG_NAME)_INCLUDE_dnsforwarder:dnsforwarder \
+	+PACKAGE_$(PKG_NAME)_INCLUDE_udp2raw-tunnel:udp2raw-tunnel \
+	+PACKAGE_$(PKG_NAME)_INCLUDE_udpspeeder:udpspeeder \
 	+PACKAGE_$(PKG_NAME)_INCLUDE_haproxy:haproxy
 endef
 

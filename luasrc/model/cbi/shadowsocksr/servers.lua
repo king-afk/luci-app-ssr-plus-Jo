@@ -23,19 +23,16 @@ s.addremove = true
 s.sortable = true
 s.template = "cbi/tblsection"
 s.description = string.format(translate("Server Count") ..  ": %d", server_count)
-s.extedit = d.build_url("admin", "services", "shadowsocksr", "servers", "%s")
 
-function s.create(e, t)
-    local e = TypedSection.create(e, t)
-    luci.http.redirect(
-        d.build_url("admin", "services", "shadowsocksr", "servers", e))
+s.extedit = luci.dispatcher.build_url("admin/services/shadowsocksr/servers/%s")
+function s.create(...)
+	local sid = TypedSection.create(...)
+	if sid then
+		luci.http.redirect(s.extedit % sid)
+		return
+	end
 end
 
-function s.remove(t, a)
-    s.map.proceed = true
-    s.map:del(a)
-    luci.http.redirect(d.build_url("admin", "services", "shadowsocksr", "servers"))
-end
 o = s:option(DummyValue, "type", translate("Type"))
 function o.cfgvalue(...)
 	return Value.cfgvalue(...) or translate("")

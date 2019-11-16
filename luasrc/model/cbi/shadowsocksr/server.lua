@@ -53,6 +53,7 @@ local protocol = {
 	"auth_chain_a",
 }
 
+
 local obfs = {
 	"plain",
 	"http_simple",

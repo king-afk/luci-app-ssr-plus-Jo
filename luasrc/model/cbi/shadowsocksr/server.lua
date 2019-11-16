@@ -1,31 +1,33 @@
+-- Copyright (C) 2017 yushi studio <ywb94@qq.com>
 -- Licensed to the public under the GNU General Public License v3.
-local d = require "luci.dispatcher"
-local fs = require "nixio.fs"
-local sys = require "luci.sys"
-local uci = require "luci.model.uci".cursor()
-local m, s, o
-local shadowsocksr = "shadowsocksr"
 
+local m, sec, o
+local shadowsocksr = "shadowsocksr"
 local uci = luci.model.uci.cursor()
-local server_count = 0
-uci:foreach("shadowsocksr", "servers", function(s)
-  server_count = server_count + 1
-end)
+local ipkg = require("luci.model.ipkg")
 
 m = Map(shadowsocksr)
-local server_table = {}
+
+local type = {
+	"ssr",
+	"ss",
+	"v2ray",
+}
+
 local encrypt_methods = {
-	"none",
 	"table",
 	"rc4",
-	"rc4-md5-6",
 	"rc4-md5",
+	"rc4-md5-6",
 	"aes-128-cfb",
 	"aes-192-cfb",
 	"aes-256-cfb",
 	"aes-128-ctr",
 	"aes-192-ctr",
-	"aes-256-ctr",	
+	"aes-256-ctr",
+	"aes-128-gcm",
+	"aes-192-gcm",
+	"aes-256-gcm",
 	"bf-cfb",
 	"camellia-128-cfb",
 	"camellia-192-cfb",
@@ -38,137 +40,76 @@ local encrypt_methods = {
 	"salsa20",
 	"chacha20",
 	"chacha20-ietf",
-}
-local encrypt_methods_ss = {
-	-- aead
-	"aes-128-gcm",
-	"aes-192-gcm",
-	"aes-256-gcm",
 	"chacha20-ietf-poly1305",
 	"xchacha20-ietf-poly1305",
-	-- stream
-	"table",
-	"rc4",
-	"rc4-md5",
-	"aes-128-cfb",
-	"aes-192-cfb",
-	"aes-256-cfb",
-	"aes-128-ctr",
-	"aes-192-ctr",
-	"aes-256-ctr",
-	"bf-cfb",
-	"camellia-128-cfb",
-	"camellia-192-cfb",
-	"camellia-256-cfb",
-	"salsa20",
-	"chacha20",
-	"chacha20-ietf",
 }
+
 local protocol = {
 	"origin",
-	"verify_deflate",		
+	"verify_deflate",
 	"auth_sha1_v4",
 	"auth_aes128_sha1",
 	"auth_aes128_md5",
 	"auth_chain_a",
-	"auth_chain_b",
-	"auth_chain_c",
-	"auth_chain_d",
-	"auth_chain_e",
-	"auth_chain_f",
 }
 
-obfs = {
+
+local obfs = {
 	"plain",
 	"http_simple",
 	"http_post",
-	"random_head",	
+	"random_head",
 	"tls1.2_ticket_auth",
-}
-local obfs_opts = {
-	"none",
-	"http",
-	"tls",
+	"tls1.2_ticket_fastauth",
 }
 
-local securitys = {
-    "auto",
-    "none",
-    "aes-128-gcm",
-    "chacha20-poly1305"
-}
-uci:foreach(shadowsocksr, "servers", function(s)
-	if s.alias then
-		server_table[s[".name"]] = s.alias
-	elseif s.server and s.server_port then
-		server_table[s[".name"]] = "%s:%s" %{s.server, s.server_port}
+
+m:section(SimpleSection).template  = "shadowsocksr/status2"
+-- [[ Global Setting ]]--
+sec = m:section(TypedSection, "server_global", translate("Global Setting"))
+sec.anonymous = true
+
+o = sec:option(Flag, "enable_server", translate("Enable Server"))
+o.rmempty = false
+
+-- [[ Server Setting ]]--
+sec = m:section(TypedSection, "server_config", translate("Server Setting"))
+sec.anonymous = true
+sec.addremove = true
+sec.sortable =  true
+sec.template = "cbi/tblsection"
+sec.extedit = luci.dispatcher.build_url("admin/services/shadowsocksr/server/%s")
+function sec.create(...)
+	local sid = TypedSection.create(...)
+	if sid then
+		luci.http.redirect(sec.extedit % sid)
+		return
 	end
-end)
-m:section(SimpleSection).template  = "shadowsocksr/status"
--- [[ Servers Manage ]]--
-s = m:section(TypedSection, "servers")
-s.anonymous = true
-s.description = string.format(translate("Server Count") ..  ": %d", server_count)
-s.addremove = true
-s.sortable =  true
-s.template = "cbi/tblsection"
-s.extedit = d.build_url("admin", "services", "shadowsocksr", "servers", "%s")
-
-
-function s.create(e, t)
-    local e = TypedSection.create(e, t)
-    luci.http.redirect(
-        d.build_url("admin", "services", "shadowsocksr", "servers", e))
 end
 
-function s.remove(t, a)
-    s.map.proceed = true
-    s.map:del(a)
-    luci.http.redirect(d.build_url("admin", "services", "shadowsocksr", "servers"))
-end
-o = s:option(DummyValue, "type", translate("Type"))
+o = sec:option(Flag, "enable", translate("Enable"))
 function o.cfgvalue(...)
-	return Value.cfgvalue(...) or translate("")
+	return Value.cfgvalue(...) or translate("0")
 end
+o.rmempty = false
 
-o = s:option(DummyValue, "alias", translate("Alias"))
-function o.cfgvalue(...)
-	return Value.cfgvalue(...) or translate("None")
-end
-
-o = s:option(DummyValue, "server", translate("Server Address"))
+o = sec:option(DummyValue, "type", translate("Server Node Type"))
 function o.cfgvalue(...)
 	return Value.cfgvalue(...) or "?"
 end
 
-o = s:option(DummyValue, "server_port", translate("Server Port"))
-function o.cfgvalue(...)
-	return Value.cfgvalue(...) or "?"
-end
-o = s:option(DummyValue, "encrypt_method", translate("Encrypt Method"))
-o.width="10%"
-
-o = s:option(DummyValue, "protocol", translate("Protocol"))
-o.width="10%"
-o = s:option(DummyValue, "obfs", translate("Obfs"))
-o.width="10%"
-
-o = s:option(DummyValue, "switch_enable", translate("Auto Switch"))
-function o.cfgvalue(...)
-	return Value.cfgvalue(...) or "0"
-end
-
-if nixio.fs.access("/usr/bin/kcptun-client") then
-
-o = s:option(Flag, "kcp_enable", translate("KcpTun"))
+o = sec:option(DummyValue, "server_port", translate("Server Port"))
 function o.cfgvalue(...)
 	return Value.cfgvalue(...) or "?"
 end
 
-end
-o = s:option(DummyValue,"server",translate("Ping Latency"))
-o.template="shadowsocksr/ping"
+o = sec:option(DummyValue, "encrypt_method", translate("Encrypt Method"))
 o.width="10%"
 
+o = sec:option(DummyValue, "protocol", translate("Protocol"))
+o.width="10%"
+
+o = sec:option(DummyValue, "obfs", translate("Obfs"))
+o.width="10%"
 m:append(Template("shadowsocksr/server_list"))
 return m

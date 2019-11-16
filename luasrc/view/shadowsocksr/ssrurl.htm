@@ -98,7 +98,7 @@
         var ssu = ssrurl.split('://');
         console.log(ssu.length);
         if ((ssu[0] != "ssr" && ssu[0] != "ss" && ssu[0] != "vmess") || ssu[1] == "") {
-            s.innerHTML = "<font color='red'>无效格式</font>";
+            s.innerHTML = "<font color='red'>无效的格式</font>";
             return false;
         }
 
@@ -135,7 +135,7 @@
             document.getElementById('cbid.shadowsocksr.' + sid + '.password').value = b64decsafe(ssm[6]);
             document.getElementById('cbid.shadowsocksr.' + sid + '.obfs_param').value = dictvalue(pdict, 'obfsparam');
             document.getElementById('cbid.shadowsocksr.' + sid + '.protocol_param').value = dictvalue(pdict, 'protoparam');
-   
+
             var rem = pdict['remarks'];
             if (typeof (rem) != 'undefined' && rem != '' && rem.length > 0)
                 document.getElementById('cbid.shadowsocksr.' + sid + '.alias').value = b64decutf8safe(rem);
@@ -186,11 +186,35 @@
             document.getElementById('cbid.shadowsocksr.' + sid + '.server_port').value = ssm.port;
             document.getElementById('cbid.shadowsocksr.' + sid + '.alter_id').value = ssm.aid;
             document.getElementById('cbid.shadowsocksr.' + sid + '.vmess_id').value = ssm.id;
-            document.getElementById('cbid.shadowsocksr.' + sid + '.security').value = ssm.type;
             document.getElementById('cbid.shadowsocksr.' + sid + '.transport').value = ssm.net;
-            document.getElementById('cbid.shadowsocksr.' + sid + '.http_host').value = ssm.host;
-            document.getElementById('cbid.shadowsocksr.' + sid + '.http_path').value = ssm.path;
-
+			if(ssm.tls == "tls"){
+				document.getElementById('cbid.shadowsocksr.' + sid + '.tls').checked = true;
+				document.getElementById('cbid.shadowsocksr.' + sid + '.insecure').checked = true;
+			}
+			document.getElementById('cbid.shadowsocksr.' + sid + '.transport').dispatchEvent(event);
+			
+			switch(ssm.net){
+				case "tcp":
+				break;
+				
+				case "kcp":
+				break;
+				
+				case "ws":
+				document.getElementById('cbid.shadowsocksr.' + sid + '.ws_host').value = ssm.host;
+				document.getElementById('cbid.shadowsocksr.' + sid + '.ws_path').value = ssm.path;
+				break;
+				
+				case "h2":
+				break;
+				
+				case "quic":
+				break;
+				
+			}
+			
+			
+			
             s.innerHTML = "<font color='green'>导入V2ray配置信息成功</font>";
             return false;
         }
@@ -200,7 +224,6 @@
 
 <input type="button" class="cbi-button cbi-button-apply" value="导入配置信息" onclick="return import_ssr_url(this, '<%=self.option%>', '<%=self.value%>')" />
 <input type="button" class="cbi-button cbi-button-apply" value="<%:Export SSR%>" onclick="return export_ssr_url(this,'<%=self.option%>','<%=self.value%>')" /><span id="<%=self.option%>-status"></span>
-
 <span id="<%=self.option%>-status"></span>
 
 <%+cbi/valuefooter%>

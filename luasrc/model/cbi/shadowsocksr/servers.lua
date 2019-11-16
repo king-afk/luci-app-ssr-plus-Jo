@@ -48,13 +48,23 @@ function o.cfgvalue(...)
 	return Value.cfgvalue(...) or "?"
 end
 
+o = s:option(DummyValue, "server_port", translate("Server Port"))
+function o.cfgvalue(...)
+	return Value.cfgvalue(...) or "?"
+end
+
 o = s:option(DummyValue, "encrypt_method", translate("Encrypt Method"))
 o.width="10%"
 
 
-o = s:option(DummyValue, "server_port", translate("Server Port"))
+o = s:option(DummyValue, "protocol", translate("Protocol"))
+o.width="10%"
+o = s:option(DummyValue, "obfs", translate("Obfs"))
+o.width="10%"
+
+o = s:option(DummyValue, "switch_enable", translate("Auto Switch"))
 function o.cfgvalue(...)
-	return Value.cfgvalue(...) or "?"
+	return Value.cfgvalue(...) or "0"
 end
 
 if nixio.fs.access("/usr/bin/kcptun-client") then
@@ -64,11 +74,6 @@ function o.cfgvalue(...)
 	return Value.cfgvalue(...) or "?"
 end
 
-end
-
-o = s:option(DummyValue, "switch_enable", translate("Auto Switch"))
-function o.cfgvalue(...)
-	return Value.cfgvalue(...) or "0"
 end
 
 

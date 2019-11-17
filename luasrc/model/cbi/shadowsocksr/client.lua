@@ -158,6 +158,11 @@ o.rawhtml  = true
 o.template = "shadowsocksr/refresh"
 o.value =tostring(math.ceil(gfw_count)) .. " " .. translate("Records")
 
+o = s:option(Button,"ad_data",translate("Advertising Data")) 
+o .rawhtml  = true
+o .template = "shadowsocksr/refresh"
+o .value =tostring(math.ceil(ad_count)) .. " " .. translate("Records")
+
 o = s:option(Button,"ip_data",translate("China IP Data"))
 o.rawhtml  = true
 o.template = "shadowsocksr/refresh"

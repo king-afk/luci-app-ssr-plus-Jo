@@ -110,5 +110,6 @@ o.width="10%"
 
 o = sec:option(DummyValue, "obfs", translate("Obfs"))
 o.width="10%"
+
 m:append(Template("shadowsocksr/server_list"))
 return m

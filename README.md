@@ -32,6 +32,8 @@ Lean's luci-app-ssr-plus source (history):
     cd package
     #下载源码
     git clone https://github.com/Ameykyl/luci-app-ssr-plus-jo
+    # 依赖包
+    git clone https://github.com/Ameykyl/my
     #回到源码根目录
     cd ..
     make menuconfig

@@ -14,7 +14,7 @@ Lean's luci-app-ssr-plus source (history):
 <https://github.com/coolsnowwolf/lede/tree/2915c44a11ca0ee40b51ff5d9c18a0da1951e170/package/lean/luci-app-ssr-plus>
 
 # luci-app-ssr-plus-jo
-![](https://i.imgur.com/dUvNgmd.jpg) 
+![](https://imgur.com/QXNb1QM) 
 ## 说明
    源码来源：https://github.com/coolsnowwolf
    

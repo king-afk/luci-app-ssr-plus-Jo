@@ -26,6 +26,7 @@ Lean's luci-app-ssr-plus source (history):
 
 4.udp2raw/UDPspeeder 支持
 
+5.已适配官方master/19.07
 ## 使用方法
 ```Brach
     #源码根目录，进入package文件夹

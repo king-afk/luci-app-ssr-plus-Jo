@@ -1,6 +1,6 @@
 </DIV>
 <head>
- <meta charset="utf-8">
+    <meta charset="utf-8">
     <meta http-equiv="x-dns-prefetch-control" content="on">
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="//whois.pconline.com.cn">
@@ -74,6 +74,7 @@
             text-overflow: ellipsis;
             transform:translateY(10%);
         }
+
         .sk-text-success {
             color: #32b643;
             font-size:15px;
@@ -86,6 +87,7 @@
             text-align: left;
             transform:translateY(10%);
         }
+
         .sk-text-error {
             color: #e85600;
             font-size:15px;
@@ -98,16 +100,20 @@
             text-align: left;
             transform:translateY(10%);
         }
+
         h3 {
             margin: 5px 0 6px;
         }
+
         p {
             margin: 10px 0;
         }
+
         a {
             text-decoration: none;
             color: #666;
         }
+
     </style>
 </head>
 <fieldset class="cbi-section">
@@ -125,19 +131,19 @@
                 <span class="ip-title">IPIP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;国内:</span><span class="ip-result" id="ip-ipipnet"></span> <span class="ip-geo" id="ip-ipipnet-geo"></span>
             </p>
             <p>
-                <span class="ip-title">太平洋&nbsp;&nbsp;国内:</span><span class="ip-result" id="ip-pcol"></span> <span class="ip-geo" id="ip-pcol-ipip"></span>
+                <span class="ip-title">IP.PC&nbsp;&nbsp;&nbsp;&nbsp;国内:</span><span class="ip-result" id="ip-pcol"></span> <span class="ip-geo" id="ip-pcol-ipip"></span>
             </p>
             <p>
                 <span class="ip-title">IP.SB&nbsp;&nbsp;&nbsp;&nbsp;海外:</span><span class="ip-result" id="ip-ipsb"></span> <span class="ip-geo" id="ip-ipsb-geo"></span>
             </p>
             <p>
-                <span class="ip-title">IPIFY&nbsp;&nbsp;&nbsp;&nbsp;海外:</span><span class="ip-result" id="ip-ipify"></span> <span class="ip-geo" id="ip-ipify-ipip"></span>
+                <span class="ip-title">IPIFY&nbsp;&nbsp;&nbsp;&nbsp;海外:</span><span class="ip-result" id="ip-ipify">
             </p>
         </div>
         <div style="width: 49%">
             <h3><font color="#2E8B57"><B>网站访问检查</B></font></h3>
-            <p>
-          <span class="ip-state_title">百度搜索:</span><span id="http-baidu"></span>
+                <p>
+                <span class="ip-state_title">百度搜索:</span><span id="http-baidu"></span>
             </p>
             <p>
                 <span class="ip-state_title">网易云音乐:</span><span id="http-163"></span>
@@ -154,9 +160,9 @@
         </div>
     </div>
     <div>
-       <p style="float: right; margin-top: 4px; font-size:15px; padding-right: 10px">由 <a onclick="return ip_skk()" href="javascript:void(0);">ip.skk.moe 提供支持</a></p>
+        <p style="float: right; margin-top: 4px; font-size:15px; padding-right: 10px">由 <a onclick="return ip_skk()" href="javascript:void(0);">ip.skk.moe 提供支持</a></p>
     </div>
-    </td></tr>
+   </td></tr>
 	</table>
 </fieldset>
     <script>
@@ -196,7 +202,7 @@
                     throw error;
                 }),
             parseIPIpip: (ip, elID) => {
-                IP.get(`https://api.skk.moe/network/parseIp/ipip/v3/${ip}`, 'json')
+                IP.get(`https://api.skk.moe/network/parseIp/ipip/${ip}`, 'json')
                     .then(resp => {
                         let x = '';
                         for (let i of resp.data) {
@@ -208,7 +214,7 @@
             },
             getWebrtcIP: () => {
                 window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
-                        let pc = new RTCPeerConnection({ iceServers: [] }),
+                let pc = new RTCPeerConnection({ iceServers: [] }),
                 noop = () => { };
                 pc.createDataChannel('');
                 pc.createOffer(pc.setLocalDescription.bind(pc), noop);
@@ -262,14 +268,17 @@
                     img.onerror = img.onload = null;
                     $$.getElementById(cbElID).innerHTML = '<span class="sk-text-error">连接超时</span>'
                 }, 5000);
+
                 img.onerror = () => {
                     clearTimeout(timeout);
                     $$.getElementById(cbElID).innerHTML = '<span class="sk-text-error">无法访问</span>'
                 }
+
                 img.onload = () => {
                     clearTimeout(timeout);
                     $$.getElementById(cbElID).innerHTML = '<span class="sk-text-success">连接正常</span>'
                 }
+
                 img.src = `https://${domain}/favicon.ico?${+(new Date)}`
             },
             runcheck: () => {
@@ -280,19 +289,22 @@
                 HTTP.checker('www.youtube.com', 'http-youtube');
             }
         };
+
 	      HTTP.runcheck();
 	      IP.getIpipnetIP();
 	      IP.getIpifyIP();
 	      IP.getWebrtcIP();
 	      
 	      function getPcolIP(data){
+                let pcisp = data.addr.split(' ');
                 $$.getElementById('ip-pcol').innerHTML = data.ip;
-                IP.parseIPIpip(data.ip, 'ip-pcol-ipip');
+                $$.getElementById('ip-pcol-ipip').innerHTML = `${data.pro} ${data.city} ${data.region} ${pcisp[1]}`;
         };
         function getIpsbIP(data){
                 $$.getElementById('ip-ipsb').innerHTML = data.address;
                 $$.getElementById('ip-ipsb-geo').innerHTML = `${data.country} ${data.province} ${data.city} ${data.isp.name}`
         };
+
 	      window.onload=myip_Load();
 	      
 	      function myip_Load()
@@ -315,11 +327,24 @@
 		       IP.getIpipnetIP();
 		       IP.getIpifyIP();
 		       IP.getWebrtcIP();
-       	   setTimeout("myip_Load()",1000*20);
+		       
+		       function getPcolIP(data){
+		            let pcisp = data.addr.split(' ');
+                $$.getElementById('ip-pcol').innerHTML = data.ip;
+                $$.getElementById('ip-pcol-ipip').innerHTML = `${data.pro} ${data.city} ${data.region} ${pcisp[1]}`;
+		       };
+		       function getIpsbIP(data){
+                $$.getElementById('ip-ipsb').innerHTML = data.address;
+                $$.getElementById('ip-ipsb-geo').innerHTML = `${data.country} ${data.province} ${data.city} ${data.isp.name}`
+		       };
+
+       	   setTimeout("myip_Load()",1000*10);
 		   }
+
     </script>
     <script defer="defer" src="https://whois.pconline.com.cn/ipJson.jsp?callback=getPcolIP"></script>
     <script defer="defer" src="https://ip.sb/addrinfo?callback=getIpsbIP"></script>
 </body>
 
 </html>
+

@@ -74,7 +74,6 @@
             text-overflow: ellipsis;
             transform:translateY(10%);
         }
-
         .sk-text-success {
             color: #32b643;
             font-size:15px;
@@ -87,7 +86,6 @@
             text-align: left;
             transform:translateY(10%);
         }
-
         .sk-text-error {
             color: #e85600;
             font-size:15px;
@@ -100,20 +98,16 @@
             text-align: left;
             transform:translateY(10%);
         }
-
         h3 {
             margin: 5px 0 6px;
         }
-
         p {
             margin: 10px 0;
         }
-
         a {
             text-decoration: none;
             color: #666;
         }
-
     </style>
 </head>
 <fieldset class="cbi-section">
@@ -202,7 +196,7 @@
                     throw error;
                 }),
             parseIPIpip: (ip, elID) => {
-                IP.get(`https://api.skk.moe/network/parseIp/ipip/${ip}`, 'json')
+                IP.get(`https://api.skk.moe/network/parseIp/ipip/v3/${ip}`, 'json')
                     .then(resp => {
                         let x = '';
                         for (let i of resp.data) {
@@ -216,7 +210,6 @@
                 window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
                         let pc = new RTCPeerConnection({ iceServers: [] }),
                 noop = () => { };
-
                 pc.createDataChannel('');
                 pc.createOffer(pc.setLocalDescription.bind(pc), noop);
                 pc.onicecandidate = (ice) => {
@@ -269,17 +262,14 @@
                     img.onerror = img.onload = null;
                     $$.getElementById(cbElID).innerHTML = '<span class="sk-text-error">连接超时</span>'
                 }, 5000);
-
                 img.onerror = () => {
                     clearTimeout(timeout);
                     $$.getElementById(cbElID).innerHTML = '<span class="sk-text-error">无法访问</span>'
                 }
-
                 img.onload = () => {
                     clearTimeout(timeout);
                     $$.getElementById(cbElID).innerHTML = '<span class="sk-text-success">连接正常</span>'
                 }
-
                 img.src = `https://${domain}/favicon.ico?${+(new Date)}`
             },
             runcheck: () => {
@@ -290,7 +280,6 @@
                 HTTP.checker('www.youtube.com', 'http-youtube');
             }
         };
-
 	      HTTP.runcheck();
 	      IP.getIpipnetIP();
 	      IP.getIpifyIP();
@@ -304,7 +293,6 @@
                 $$.getElementById('ip-ipsb').innerHTML = data.address;
                 $$.getElementById('ip-ipsb-geo').innerHTML = `${data.country} ${data.province} ${data.city} ${data.isp.name}`
         };
-
 	      window.onload=myip_Load();
 	      
 	      function myip_Load()
@@ -327,10 +315,8 @@
 		       IP.getIpipnetIP();
 		       IP.getIpifyIP();
 		       IP.getWebrtcIP();
-
        	   setTimeout("myip_Load()",1000*20);
 		   }
-
     </script>
     <script defer="defer" src="https://whois.pconline.com.cn/ipJson.jsp?callback=getPcolIP"></script>
     <script defer="defer" src="https://ip.sb/addrinfo?callback=getIpsbIP"></script>

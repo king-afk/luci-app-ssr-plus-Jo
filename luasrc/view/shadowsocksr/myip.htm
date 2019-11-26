@@ -137,7 +137,7 @@
                 <span class="ip-title">IP.SB&nbsp;&nbsp;&nbsp;&nbsp;海外:</span><span class="ip-result" id="ip-ipsb"></span> <span class="ip-geo" id="ip-ipsb-geo"></span>
             </p>
             <p>
-                <span class="ip-title">IPIFY&nbsp;&nbsp;&nbsp;&nbsp;海外:</span><span class="ip-result" id="ip-ipify">
+                <span class="ip-title">IPIFY&nbsp;&nbsp;&nbsp;&nbsp;海外:</span><span class="ip-result" id="ip-ipify"></span> <span class="ip-geo" id="ip-ipify-ipip"></span>
             </p>
         </div>
         <div style="width: 49%">
@@ -165,7 +165,6 @@
    </td></tr>
 	</table>
 </fieldset>
-
     <script>
         function ip_skk()
        {
@@ -203,7 +202,8 @@
                     throw error;
                 }),
             parseIPIpip: (ip, elID) => {
-                IP.get(`https://api.skk.moe/network/parseIp/ipip/${ip}`, 'json')
+                
+                 IP.get(`https://api.skk.moe/network/parseIp/ipip/v3/${ip}`, 'json')
                     .then(resp => {
                         let x = '';
                         for (let i of resp.data) {
@@ -307,7 +307,6 @@
         };
 
 	      window.onload=myip_Load();
-	    
 	      
 	      function myip_Load()
 	      {
@@ -349,4 +348,3 @@
 </body>
 
 </html>
-

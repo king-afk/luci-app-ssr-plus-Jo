@@ -26,12 +26,12 @@ function index()
     else
         return
     end
-    entry({"admin", "services", "shadowsocksr", "status"},form("shadowsocksr/status"),_("Status"), 22).leaf = true
+
 
     if nixio.fs.access("/usr/bin/ssr-server") then
-        entry({"admin", "services", "shadowsocksr", "server"},arcombine(cbi("shadowsocksr/server"), cbi("shadowsocksr/server-config")),_("SSR Server"),23).leaf = true
+        entry({"admin", "services", "shadowsocksr", "server"},arcombine(cbi("shadowsocksr/server"), cbi("shadowsocksr/server-config")),_("SSR Server"),22).leaf = true
     end
-   
+    entry({"admin", "services", "shadowsocksr", "status"},form("shadowsocksr/status"),_("Status"), 23).leaf = true
     entry({"admin", "services", "shadowsocksr", "log"}, cbi("shadowsocksr/log"), _("Log"), 30).leaf = true
 
     entry({"admin", "services", "shadowsocksr", "refresh"}, call("refresh_data"))

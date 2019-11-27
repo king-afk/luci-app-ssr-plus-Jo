@@ -9,6 +9,8 @@ uci:foreach("shadowsocksr", "servers", function(s)
   server_count = server_count + 1
 end)
 
+local fs  = require "nixio.fs"
+local sys = require "luci.sys"
 m = Map(shadowsocksr)
 m:section(SimpleSection).template  = "shadowsocksr/status"
 -- Server Subscribe
@@ -51,9 +53,11 @@ o.write = function()
   luci.http.redirect(luci.dispatcher.build_url("admin", "services", "shadowsocksr", "servers"))
 end
 
+
 o = s:option(Flag, "proxy", translate("Through proxy update"))
 o.rmempty = false
 o.description = translate("Through proxy update list, Not Recommended ")
+
 
 o = s:option(Button,"update",translate("Update All Subscribe Severs"))
 o.inputstyle = "apply"
@@ -62,9 +66,6 @@ o.write = function()
   luci.http.redirect(luci.dispatcher.build_url("admin", "services", "shadowsocksr", "servers"))
 end
 
-o = s:option(DummyValue, "", "")
-o.rawhtml = true
-o.template = "shadowsocksr/update_subscribe"
 
 o = s:option(Button,"update_v2ray",translate("Upgrade V2ray"))
 o.inputstyle = "reload"
@@ -74,14 +75,15 @@ end
 
 
 
-
 o = s:option(Button,"delete",translate("Delete all severs"))
 o.inputstyle = "reset"
 o.description = string.format(translate("Server Count") ..  ": %d", server_count)
 o.write = function()
-    uci:delete_all("shadowsocksr", "servers", function(s) return true end)
-    luci.sys.call("uci commit shadowsocksr && /etc/init.d/shadowsocksr stop")
-    luci.http.redirect(luci.dispatcher.build_url("admin", "services", "shadowsocksr", "subscription"))
+  uci:delete_all("shadowsocksr", "servers", function(s) return true end)
+  uci:save("shadowsocksr") 
+  luci.sys.call("uci commit shadowsocksr && /etc/init.d/shadowsocksr stop") 
+  luci.http.redirect(luci.dispatcher.build_url("admin", "services", "shadowsocksr", "servers"))
+  return
 end
 
 

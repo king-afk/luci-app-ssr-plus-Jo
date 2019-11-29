@@ -49,7 +49,7 @@ end
 table.sort(key_table)  
 
 -- [[ Global Setting ]]--
-s = m:section(TypedSection, "global")
+s = m:section(TypedSection, "global", translate("Server settings"))
 s.anonymous = true
 
 o = s:option(ListValue, "global_server", translate("Main Server"))

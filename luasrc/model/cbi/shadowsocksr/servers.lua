@@ -153,19 +153,6 @@ o.width="10%"
 o = s:option(DummyValue, "obfs", translate("Obfs"))
 o.width="10%"
 
-o = s:option(DummyValue, "switch_enable", translate("Auto Switch"))
-function o.cfgvalue(...)
-	return Value.cfgvalue(...) or "0"
-end
-
-if nixio.fs.access("/usr/bin/kcptun-client") then
-
-o = s:option(Flag, "kcp_enable", translate("KcpTun"))
-function o.cfgvalue(...)
-	return Value.cfgvalue(...) or "?"
-end
-
-end
 o = s:option(DummyValue,"server",translate("Ping Latency"))
 o.template="shadowsocksr/ping"
 o.width="10%"

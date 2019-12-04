@@ -18,15 +18,6 @@ Lean's luci-app-ssr-plus source (history):
 ## 说明
    源码来源：https://github.com/coolsnowwolf
    
-1.免开门
-
-2.增加图标检查
-
-3.增加ping延迟
-
-4.udp2raw/UDPspeeder 支持
-
-5.已适配官方master/19.07
 ## 使用方法
 ```Brach
     #源码根目录，进入package文件夹

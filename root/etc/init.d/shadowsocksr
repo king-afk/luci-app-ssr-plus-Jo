@@ -1102,9 +1102,9 @@ stop() {
 	killall -q -9 chinadns
         killall -q -9 udp2raw
         killall -q -9 udpspeeder
-                 /usr/bin/udp2raw --clear >/dev/null
+        /usr/bin/udp2raw --clear >/dev/null
 	if [ -f /var/run/pdnsd.pid ] ;then
-		kill $(cat /var/run/pdnsd.pid) >/dev/null 2>&1
+         kill $(cat /var/run/pdnsd.pid) >/dev/null 2>&1
 	else
 
 	kill -9 $(ps | grep pdnsd | grep -v "grep" | awk '{print $1}') >/dev/null 2>&1 

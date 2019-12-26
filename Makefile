@@ -1,6 +1,6 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=luci-app-ssr-plus-jo
+PKG_NAME:=luci-app-ssr-plus-Jo
 PKG_VERSION:=1.35
 PKG_RELEASE:=8
 PKG_CONFIG_DEPENDS:= CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks \
@@ -93,7 +93,7 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_v2ray-plugin
 	default n
 endef
 
-define Package/luci-app-ssr-plus-jo
+define Package/luci-app-ssr-plus-Jo
  	SECTION:=luci
 	CATEGORY:=LuCI
 	SUBMENU:=3. Applications
@@ -125,7 +125,7 @@ endef
 define Build/Compile
 endef
 
-define Package/luci-app-ssr-plus-jo/install
+define Package/luci-app-ssr-plus-Jo/install
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci
 	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
 	$(INSTALL_DIR) $(1)/
@@ -134,7 +134,7 @@ define Package/luci-app-ssr-plus-jo/install
 	cp -pR ./po/zh-cn/ssr-plus.zh-cn.lmo $(1)/usr/lib/lua/luci/i18n/ssr-plus.zh-cn.lmo
 endef
 
-define Package/luci-app-ssr-plus-jo/postinst
+define Package/luci-app-ssr-plus-Jo/postinst
 #!/bin/sh
 if [ -z "$${IPKG_INSTROOT}" ]; then
 	( . /etc/uci-defaults/luci-ssr-plus ) && rm -f /etc/uci-defaults/luci-ssr-plus
@@ -145,7 +145,7 @@ fi
 exit 0
 endef
 
-define Package/luci-app-ssr-plus-jo/prerm
+define Package/luci-app-ssr-plus-Jo/prerm
 #!/bin/sh
 if [ -z "$${IPKG_INSTROOT}" ]; then
      /etc/init.d/shadowsocksr disable
@@ -154,4 +154,4 @@ fi
 exit 0
 endef
 
-$(eval $(call BuildPackage,luci-app-ssr-plus-jo))
+$(eval $(call BuildPackage,luci-app-ssr-plus-Jo))

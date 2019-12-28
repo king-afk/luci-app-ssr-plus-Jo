@@ -38,6 +38,8 @@ end
 o.default=2
 o.rmempty = false
 
+o = s:option(DynamicList, "subscribe_url", translate("Subscribe URL"))
+o.rmempty = true
 
 o = s:option(Flag, "proxy", translate("Through proxy update"))
 o.rmempty = false

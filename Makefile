@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-ssr-plus-Jo
-PKG_VERSION:=1.40
+PKG_VERSION:=1.41
 PKG_RELEASE:=8
 PKG_CONFIG_DEPENDS:= CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_V2ray \
@@ -18,6 +18,7 @@ PKG_CONFIG_DEPENDS:= CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_privoxy \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs\
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs-server\
+	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ipt2socks\
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_GoQuiet-client\
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_GoQuiet-server\
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_v2ray-plugin
@@ -84,6 +85,10 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs
 config PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs-server
 	bool "simple-obfs-server"
 	default n
+
+config PACKAGE_$(PKG_NAME)_INCLUDE_ipt2socks
+	bool "Include ipt2socks"
+	default n
 	
 config PACKAGE_$(PKG_NAME)_INCLUDE_GoQuiet-client
 	bool "GoQuiet-client"
@@ -120,8 +125,9 @@ define Package/luci-app-ssr-plus-Jo
             +PACKAGE_$(PKG_NAME)_INCLUDE_privoxy:privoxy \
             +PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs:simple-obfs \
             +PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs-server:simple-obfs-server \
+	    +PACKAGE_$(PKG_NAME)_INCLUDE_ipt2socks:ipt2socks \
             +PACKAGE_$(PKG_NAME)_INCLUDE_GoQuiet-client:gq-client \
-			+PACKAGE_$(PKG_NAME)_INCLUDE_GoQuiet-server:gq-server \
+	    +PACKAGE_$(PKG_NAME)_INCLUDE_GoQuiet-server:gq-server \
             +PACKAGE_$(PKG_NAME)_INCLUDE_v2ray-plugin:v2ray-plugin
 endef
 

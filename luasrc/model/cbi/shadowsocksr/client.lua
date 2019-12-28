@@ -123,6 +123,7 @@ o:depends("pdnsd_enable", "6")
 
 o = s:option(Value, "tunnel_forward", translate("Anti-pollution DNS Server"))
 o:value("0.0.0.0:53", translate("Using System Default DNS"))
+o:value("0.0.0.0:5333", translate("Using acceleration center DNS"))
 o:value("8.8.4.4:53", translate("Google Public DNS (8.8.4.4)"))
 o:value("8.8.8.8:53", translate("Google Public DNS (8.8.8.8)"))
 o:value("208.67.222.222:53", translate("OpenDNS (208.67.222.222)"))
@@ -171,5 +172,5 @@ o.value =ip_count .. " " .. translate("Records")
 o = s:option(Button,"check_port",translate("Check Server Port"))
 o.template = "shadowsocksr/checkport"
 o.value =translate("No Check")
-m:section(SimpleSection).template  = "shadowsocksr/myip"
+
 return m

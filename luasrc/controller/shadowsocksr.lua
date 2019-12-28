@@ -7,37 +7,37 @@ function index()
         return
     end
     if nixio.fs.access("/usr/bin/ssr-redir") then
-        entry({"admin", "services", "shadowsocksr"},alias("admin", "services", "shadowsocksr", "client"), _("ShadowSocksR Plus+"),10).dependent = true
-        entry({"admin", "services", "shadowsocksr", "client"},cbi("shadowsocksr/client"),_("SSR Client"),10).leaf = true
-        entry({"admin", "services", "shadowsocksr", "servers"}, cbi("shadowsocksr/servers"), _("Severs Nodes"), 11).leaf = true
-        entry({"admin", "services", "shadowsocksr", "servers"},arcombine(cbi("shadowsocksr/servers"), cbi("shadowsocksr/client-config")),_("Severs Nodes"), 11).leaf = true
+        entry({"admin", "vpn", "shadowsocksr"},alias("admin", "vpn", "shadowsocksr", "client"), _("ShadowSocksR Plus+"),10).dependent = true
+        entry({"admin", "vpn", "shadowsocksr", "client"},cbi("shadowsocksr/client"),_("SSR Client"),10).leaf = true
+        entry({"admin", "vpn", "shadowsocksr", "servers"}, cbi("shadowsocksr/servers"), _("Severs Nodes"), 11).leaf = true
+        entry({"admin", "vpn", "shadowsocksr", "servers"},arcombine(cbi("shadowsocksr/servers"), cbi("shadowsocksr/client-config")),_("Severs Nodes"), 11).leaf = true
 
- entry({"admin", "services", "shadowsocksr", "subscription"},cbi("shadowsocksr/subscription"), _("Subscription Managenent"),12).leaf = true
-        entry({"admin", "services", "shadowsocksr", "control"},cbi("shadowsocksr/control"),_("Access Control"),13).leaf = true
+ entry({"admin", "vpn", "shadowsocksr", "subscription"},cbi("shadowsocksr/subscription"), _("Subscription Managenent"),12).leaf = true
+        entry({"admin", "vpn", "shadowsocksr", "control"},cbi("shadowsocksr/control"),_("Access Control"),13).leaf = true
 
-        entry({"admin", "services", "shadowsocksr", "list"},cbi("shadowsocksr/list"),_("GFW List"),15).leaf = true
-
+        entry({"admin", "vpn", "shadowsocksr", "list"},cbi("shadowsocksr/list"),_("GFW List"),15).leaf = true
+entry({"admin", "vpn", "shadowsocksr", "appointlist"},form("shadowsocksr/appointlist"),_("Appointlist List"), 17).leaf = true
           
- entry({"admin", "services", "shadowsocksr", "automatic"},cbi("shadowsocksr/automatic"), _("Automatic Switching"),20).leaf = true
-        entry({"admin", "services", "shadowsocksr", "advanced"},cbi("shadowsocksr/advanced"), _("Advanced Settings"),21).leaf = true
+ entry({"admin", "vpn", "shadowsocksr", "automatic"},cbi("shadowsocksr/automatic"), _("Automatic Switching"),20).leaf = true
+        entry({"admin", "vpn", "shadowsocksr", "advanced"},cbi("shadowsocksr/advanced"), _("Advanced Settings"),21).leaf = true
     elseif nixio.fs.access("/usr/bin/ssr-server") then
-        entry({"admin", "services", "shadowsocksr"},alias("admin", "services", "shadowsocksr", "server"), _("ShadowSocksR"),10).dependent = true
+        entry({"admin", "vpn", "shadowsocksr"},alias("admin", "vpn", "shadowsocksr", "server"), _("ShadowSocksR"),10).dependent = true
     else
         return
     end
     if nixio.fs.access("/usr/bin/ssr-server") then
-        entry({"admin", "services", "shadowsocksr", "server"},arcombine(cbi("shadowsocksr/server"), cbi("shadowsocksr/server-config")),_("SSR Server"),22).leaf = true
+        entry({"admin", "vpn", "shadowsocksr", "server"},arcombine(cbi("shadowsocksr/server"), cbi("shadowsocksr/server-config")),_("SSR Server"),22).leaf = true
     end
-    entry({"admin", "services", "shadowsocksr", "status"},form("shadowsocksr/status"),_("Status"), 23).leaf = true
-    entry({"admin", "services", "shadowsocksr", "log"}, cbi("shadowsocksr/log"), _("Log"), 30).leaf = true
+    entry({"admin", "vpn", "shadowsocksr", "status"},form("shadowsocksr/status"),_("Status"), 23).leaf = true
+    entry({"admin", "vpn", "shadowsocksr", "log"}, cbi("shadowsocksr/log"), _("Log"), 30).leaf = true
 
-    entry({"admin", "services", "shadowsocksr", "refresh"}, call("refresh_data"))
-    entry({"admin", "services", "shadowsocksr", "checkport"}, call("check_port"))
-    entry({"admin", "services", "shadowsocksr", "checkports"}, call("check_ports"))
-    entry({"admin", "services", "shadowsocksr", "run"}, call("act_status"))
-    entry({"admin", "services", "shadowsocksr", "change"}, call("change_node"))
-    entry({"admin", "services", "shadowsocksr", "allserver"}, call("get_servers"))
-    entry({"admin", "services", "shadowsocksr", "ping"}, call("act_ping")).leaf=true
+    entry({"admin", "vpn", "shadowsocksr", "refresh"}, call("refresh_data"))
+    entry({"admin", "vpn", "shadowsocksr", "checkport"}, call("check_port"))
+    entry({"admin", "vpn", "shadowsocksr", "checkports"}, call("check_ports"))
+    entry({"admin", "vpn", "shadowsocksr", "run"}, call("act_status"))
+    entry({"admin", "vpn", "shadowsocksr", "change"}, call("change_node"))
+    entry({"admin", "vpn", "shadowsocksr", "allserver"}, call("get_servers"))
+    entry({"admin", "vpn", "shadowsocksr", "ping"}, call("act_ping")).leaf=true
 end
 
 
@@ -47,19 +47,19 @@ function act_status()
     --全局服务器
     e.global=luci.sys.call("ps -w | grep ssr-retcp | grep -v grep >/dev/null") == 0  
 
-     --检测PDNSD状态
-	if tonumber(luci.sys.exec("ps -w | grep pdnsd |grep -v grep| wc -l"))>0 then
-		e.pdnsd= true
+     --检测chinadns状态
+	if tonumber(luci.sys.exec("ps -w | grep chinadns |grep -v grep| wc -l"))>0 then
+		e.chinadns= true
 	elseif tonumber(luci.sys.exec("ps -w | grep dnsparsing |grep -v grep| wc -l"))>0 then
-		e.pdnsd= true
+		e.chinadns= true
 	elseif tonumber(luci.sys.exec("ps -w | grep dnscrypt-proxy |grep -v grep| wc -l"))>0 then
-		e.pdnsd= true
-              elseif tonumber(luci.sys.exec("ps -w | grep dns-forwarder |grep -v grep| wc -l"))>0 then
-		e.pdnsd= true
+		e.chinadns= true
+                   elseif tonumber(luci.sys.exec("ps -w | grep pdnsd |grep -v grep| wc -l"))>0 then
+		e.chinadns= true
+           
                elseif tonumber(luci.sys.exec("ps -w | grep dnsforwarder |grep -v grep| wc -l"))>0 then
-		e.pdnsd= true
-                elseif tonumber(luci.sys.exec("ps -w | grep https_dns_proxy |grep -v grep| wc -l"))>0 then
-		e.pdnsd= true
+		e.chinadns= true
+             
           end
      --检测SOCKS5状态
 	if tonumber(luci.sys.exec("ps -w | grep ssr-local |grep -v grep| wc -l"))>0 then

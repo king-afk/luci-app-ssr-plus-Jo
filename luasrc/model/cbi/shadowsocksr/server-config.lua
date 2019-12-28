@@ -103,7 +103,7 @@ local securitys = {
 
 m = Map(shadowsocksr, translate("Edit ShadowSocksR Server"))
 
-m.redirect = luci.dispatcher.build_url("admin/services/shadowsocksr/server")
+m.redirect = luci.dispatcher.build_url("admin/vpn/shadowsocksr/server")
 if m.uci:get(shadowsocksr, sid) ~= "server_config" then
 	luci.http.redirect(m.redirect) 
 	return
@@ -163,12 +163,30 @@ o:depends("type", "ss")
 
 
 
+o = s:option(ListValue, "plugin", translate("plugin"))
+o:value("none", "None")
+if nixio.fs.access("/usr/bin/v2ray-plugin") then
+o:value("/usr/bin/v2ray-plugin", "v2ray-plugin")
+end
+if nixio.fs.access("/usr/bin/obfs-server") then
+o:value("/usr/bin/obfs-server", "obfs-server")
+end
+if nixio.fs.access("/usr/bin/gq-server") then
+o:value("/usr/bin/gq-server", "GoQuiet")
+end
+o.rmempty = false
+o.default = "none"
+o:depends("type", "ss")
+
+o = s:option(Value, "plugin_opts", translate("Plugin Opts"))
+o.rmempty = true
+o:depends("plugin", "/usr/bin/v2ray-plugin")
+o:depends("plugin", "/usr/bin/obfs-server")
+o:depends("plugin", "/usr/bin/gq-server")
+
 o = s:option(ListValue, "protocol", translate("Protocol"))
 for _, v in ipairs(protocol) do o:value(v) end
 o.rmempty = true
-o:depends("type", "ssr")
-
-o = s:option(Value, "protocol_param", translate("Protocol param(optional)"))
 o:depends("type", "ssr")
 
 o = s:option(ListValue, "obfs", translate("Obfs"))
@@ -176,10 +194,9 @@ for _, v in ipairs(obfs) do o:value(v) end
 o.rmempty = true
 o:depends("type", "ssr")
 
-
-
 o = s:option(Value, "obfs_param", translate("Obfs param(optional)"))
 o:depends("type", "ssr")
+
 
 -- AlterId
 o = s:option(Value, "alter_id", translate("AlterId"))
@@ -359,3 +376,4 @@ o.rmempty = true
 o:depends("type", "ssr")
 
 return m
+

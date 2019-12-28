@@ -38,15 +38,7 @@ end
 o.default=2
 o.rmempty = false
 
-o = s:option(DynamicList, "subscribe_url", translate("Subscribe URL"))
-o.rmempty = true
 
-o = s:option(Button,"update_Sub",translate("Update Subscribe List"))
-o.inputstyle = "reload"
-o.description = translate("Update subscribe url list first")
-o.write = function() 
-  luci.http.redirect(luci.dispatcher.build_url("admin", "vpn", "shadowsocksr", "servers"))
-end
 o = s:option(Flag, "proxy", translate("Through proxy update"))
 o.rmempty = false
 o.description = translate("Through proxy update list, Not Recommended ")
@@ -76,3 +68,4 @@ o.write = function()
 end
 
 return m
+

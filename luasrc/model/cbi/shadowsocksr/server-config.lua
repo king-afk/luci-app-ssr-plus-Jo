@@ -133,9 +133,7 @@ o:value("v2ray", translate("V2Ray"))
 end
 o.description = translate("Using incorrect encryption mothod may causes service fail to start")
 
-upload_conf = s:option(FileUpload, "")	
-upload_conf.template = "cbi/other_upload2"	
-upload_conf:depends("use_conf_file", 1)	
+
 
 o = s:option(Flag, "ipv4_ipv6", translate("Enabling IPv6 server"))
 o.default = 0

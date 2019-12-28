@@ -1,7 +1,7 @@
 -- Copyright (C) 2017 yushi studio <ywb94@qq.com>
 -- Licensed to the public under the GNU General Public License v3.
 
-local IPK_Version="20191116.118"
+local IPK_Version="20191202.120"
 local m, s, o
 local redir_run=0
 local reudp_run=0
@@ -22,6 +22,7 @@ local gfwmode=0
 local pdnsd_run=0
 local dnsforwarder_run=0
 local dnscrypt_proxy_run=0
+local chinadns_run=0
 local haproxy_run=0
 local privoxy_run=0
 
@@ -30,6 +31,8 @@ gfwmode=1
 end
 
 local shadowsocksr = "shadowsocksr"
+
+
 -- html constants
 font_blue = [[<font color="green">]]
 font_off = [[</font>]]
@@ -52,6 +55,7 @@ else
  end
         
 end
+
 
 local udp2raw_version=translate("Unknown")
 local udp2raw_file="/usr/bin/udp2raw"
@@ -92,6 +96,9 @@ if nixio.fs.access("/etc/china_ssr.txt") then
  ip_count = sys.exec("cat /etc/china_ssr.txt | wc -l")
 end
 
+
+
+
 local icount=sys.exec("ps -w | grep ssr-reudp |grep -v grep| wc -l")
 if tonumber(icount)>0 then
 reudp_run=1
@@ -131,6 +138,10 @@ if luci.sys.call("pidof ssr-server >/dev/null") == 0 then
 server_run=1
 end
 
+if luci.sys.call("busybox ps -w | grep ssr-tunnel |grep -v grep >/dev/null") == 0 then
+tunnel_run=1
+end
+
 if luci.sys.call("pidof ss-server >/dev/null") == 0 then
 sserver_run=1
 end
@@ -149,7 +160,11 @@ end
 
 if luci.sys.call("pidof udpspeeder >/dev/null") == 0 then
 udpspeeder_run=1
-end	
+end
+	
+if luci.sys.call("pidof chinadns >/dev/null") == 0 then                 
+chinadns_run=1     
+end
 
 if luci.sys.call("pidof pdnsd >/dev/null") == 0 then                 
 pdnsd_run=1     
@@ -163,6 +178,7 @@ if luci.sys.call("pidof dnscrypt-proxy >/dev/null") == 0 then
 dnscrypt_proxy_run=1     
 end
 
+
 if luci.sys.call("pidof haproxy >/dev/null") == 0 then                 
 haproxy_run=1     
 end	
@@ -170,6 +186,8 @@ end
 m = SimpleForm("Version")
 m.reset = false
 m.submit = false
+
+
 
 s=m:field(DummyValue,"redir_run",translate("Global Client")) 
 s.rawhtml  = true
@@ -195,6 +213,16 @@ else
 s.value = translate("Not Running")
 end
 
+if nixio.fs.access("/usr/bin/chinadns") then
+s=m:field(DummyValue,"chinadns_run",translate("ChinaDNS")) 
+s.rawhtml  = true
+if chinadns_run == 1 then
+s.value =font_blue .. bold_on .. translate("Running") .. bold_off .. font_off
+else
+s.value = translate("Not Running")
+end
+end
+
 s=m:field(DummyValue,"pdnsd_run",translate("PDNSD"))
 s.rawhtml  = true                                              
 if pdnsd_run == 1 then                             
@@ -218,6 +246,7 @@ s.value =font_blue .. bold_on .. translate("Running") .. bold_off .. font_off
 else             
 s.value = translate("Not Running")
 end 
+
 
 
 
@@ -305,6 +334,7 @@ else
 s.value = translate("Not Running")
 end
 end
+
 s=m:field(DummyValue,"version",translate("IPK Version")) 
 s.rawhtml  = true
 s.value =IPK_Version
@@ -319,10 +349,7 @@ s.value =font_blue .. bold_on .. translate("Running") .. bold_off .. font_off
 else
 s.value = translate("Not Running")
 end
-s=m:field(DummyValue,"udp2raw_project",translate("udp2raw tunnel Project")) 
-s.rawhtml  = true
-s.value =bold_on .. [[<a href="]] .. "https://github.com/wangyu-/udp2raw-tunnel" .. [[" >]]
-	.. "https://github.com/wangyu-/udp2raw-tunnel" .. [[</a>]] .. bold_off
+
 
 s=m:field(DummyValue,"udpspeeder_version",translate("UDPspeeder Version")) 
 s.rawhtml  = true
@@ -334,33 +361,9 @@ s.value =font_blue .. bold_on .. translate("Running") .. bold_off .. font_off
 else
 s.value = translate("Not Running")
 end
-s=m:field(DummyValue,"udpspeeder_project",translate("UDPspeeder Project")) 
-s.rawhtml  = true
-s.value =bold_on .. [[<a href="]] .. "https://github.com/wangyu-/UDPspeeder" .. [[" >]]
-	.. "https://github.com/wangyu-/UDPspeeder" .. [[</a>]] .. bold_off
-	
-
-if gfwmode==1 then 
-s=m:field(DummyValue,"gfw_data",translate("GFW List Data")) 
-s.rawhtml  = true
-s.template = "shadowsocksr/refresh"
-s.value =tostring(math.ceil(gfw_count)) .. " " .. translate("Records")
-
-
-s=m:field(DummyValue,"ad_data",translate("Advertising Data")) 
-s.rawhtml  = true
-s.template = "shadowsocksr/refresh"
-s.value =tostring(math.ceil(ad_count)) .. " " .. translate("Records")
-end
-s=m:field(DummyValue,"ip_data",translate("China IP Data")) 
-s.rawhtml  = true
-s.template = "shadowsocksr/refresh"
-s.value =ip_count .. " " .. translate("Records")
-
-s=m:field(DummyValue,"check_port",translate("Check Server Port"))
-s.template = "shadowsocksr/checkport"
-s.value =translate("No Check")
-
+s=m:field(DummyValue,"feedback",translate("Feedback"))
+s.template = "cbi/feedback"
+s.value =translate("No feedback")
 
 
 return m

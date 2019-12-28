@@ -362,7 +362,7 @@ else
 s.value = translate("Not Running")
 end
 s=m:field(DummyValue,"feedback",translate("Feedback"))
-s.template = "cbi/feedback"
+s.template = "shadowsocksr/feedback"
 s.value =translate("No feedback")
 
 

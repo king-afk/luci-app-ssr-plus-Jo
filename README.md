@@ -21,10 +21,8 @@ Lean's luci-app-ssr-plus source (history):
 ## 使用方法
 ```Brach
     #下载源码
-    git clone https://github.com/Leo-Jo-My/luci-app-ssr-plus-Jo package/my/luci-app-ssr-plus-Jo
-    # 依赖包
-    git clone https://github.com/Leo-Jo-My/my package/my/my 
     
+    git clone https://github.com/Leo-Jo-My/luci-app-ssr-plus-Jo package/my/luci-app-ssr-plus-Jo
     make menuconfig
     #编译
     make package/my/luci-app-ssr-plus-Jo/{clean,compile} V=s

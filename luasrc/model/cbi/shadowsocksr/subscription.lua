@@ -18,7 +18,7 @@ end
 
 
 m = Map(shadowsocksr)
-m:section(SimpleSection).template  = "shadowsocksr/status"
+m:section(SimpleSection).template  = "shadowsocksr/status3"
 -- [[ 节点订阅 ]]--
 
 s = m:section(TypedSection, "server_subscribe",  translate("Subscription"))

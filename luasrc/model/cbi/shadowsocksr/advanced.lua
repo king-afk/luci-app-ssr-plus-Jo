@@ -21,7 +21,7 @@ if nixio.fs.access("/etc/china_ssr.txt") then
  ip_count = sys.exec("cat /etc/china_ssr.txt | wc -l")
 end
 
-uci:foreach(vssr, "servers", function(s)
+uci:foreach(shadowsocksr , "servers", function(s)
 	if s["type"] == "v2ray" then
 		if s.alias then
 			server_table[s[".name"]] = "[%s]:%s" %{string.upper(s.type), s.alias}

@@ -163,30 +163,12 @@ o:depends("type", "ss")
 
 
 
-o = s:option(ListValue, "plugin", translate("plugin"))
-o:value("none", "None")
-if nixio.fs.access("/usr/bin/v2ray-plugin") then
-o:value("/usr/bin/v2ray-plugin", "v2ray-plugin")
-end
-if nixio.fs.access("/usr/bin/obfs-server") then
-o:value("/usr/bin/obfs-server", "obfs-server")
-end
-if nixio.fs.access("/usr/bin/gq-server") then
-o:value("/usr/bin/gq-server", "GoQuiet")
-end
-o.rmempty = false
-o.default = "none"
-o:depends("type", "ss")
-
-o = s:option(Value, "plugin_opts", translate("Plugin Opts"))
-o.rmempty = true
-o:depends("plugin", "/usr/bin/v2ray-plugin")
-o:depends("plugin", "/usr/bin/obfs-server")
-o:depends("plugin", "/usr/bin/gq-server")
-
 o = s:option(ListValue, "protocol", translate("Protocol"))
 for _, v in ipairs(protocol) do o:value(v) end
 o.rmempty = true
+o:depends("type", "ssr")
+
+o = s:option(Value, "protocol_param", translate("Protocol param(optional)"))
 o:depends("type", "ssr")
 
 o = s:option(ListValue, "obfs", translate("Obfs"))
@@ -194,9 +176,10 @@ for _, v in ipairs(obfs) do o:value(v) end
 o.rmempty = true
 o:depends("type", "ssr")
 
+
+
 o = s:option(Value, "obfs_param", translate("Obfs param(optional)"))
 o:depends("type", "ssr")
-
 
 -- AlterId
 o = s:option(Value, "alter_id", translate("AlterId"))
@@ -214,13 +197,13 @@ o.rmempty = true
 o.default = uuid
 o:depends("type", "v2ray")
 
--- 加密方式
+-- 鍔犲瘑鏂瑰紡
 o = s:option(ListValue, "security", translate("Encrypt Method"))
 for _, v in ipairs(securitys) do o:value(v, v:upper()) end
 o.rmempty = true
 o:depends("type", "v2ray")
 
--- 传输协议
+-- 浼犺緭鍗忚
 o = s:option(ListValue, "transport", translate("Transport"))
 o:value("tcp", "TCP")
 o:value("kcp", "mKCP")
@@ -230,50 +213,50 @@ o:value("quic", "QUIC")
 o.rmempty = true
 o:depends("type", "v2ray")
 
--- [[ TCP部分 ]]--
+-- [[ TCP閮ㄥ垎 ]]--
 
--- TCP伪装
+-- TCP浼
 o = s:option(ListValue, "tcp_guise", translate("Camouflage Type"))
 o:depends("transport", "tcp")
 o:value("none", translate("None"))
 o:value("http", "HTTP")
 o.rmempty = true
 
--- HTTP域名
+-- HTTP鍩熷悕
 o = s:option(DynamicList, "http_host", translate("HTTP Host"))
 o:depends("tcp_guise", "http")
 o.rmempty = true
 
--- HTTP路径
+-- HTTP璺緞
 o = s:option(DynamicList, "http_path", translate("HTTP Path"))
 o:depends("tcp_guise", "http")
 o.rmempty = true
 
--- [[ WS部分 ]]--
+-- [[ WS閮ㄥ垎 ]]--
 
--- WS域名
+-- WS鍩熷悕
 o = s:option(Value, "ws_host", translate("WebSocket Host"))
 o:depends("transport", "ws")
 o.rmempty = true
 
--- WS路径
+-- WS璺緞
 o = s:option(Value, "ws_path", translate("WebSocket Path"))
 o:depends("transport", "ws")
 o.rmempty = true
 
--- [[ H2部分 ]]--
+-- [[ H2閮ㄥ垎 ]]--
 
--- H2域名
+-- H2鍩熷悕
 o = s:option(DynamicList, "h2_host", translate("HTTP/2 Host"))
 o:depends("transport", "h2")
 o.rmempty = true
 
--- H2路径
+-- H2璺緞
 o = s:option(Value, "h2_path", translate("HTTP/2 Path"))
 o:depends("transport", "h2")
 o.rmempty = true
 
--- [[ QUIC部分 ]]--
+-- [[ QUIC閮ㄥ垎 ]]--
 
 o = s:option(ListValue, "quic_security", translate("QUIC Security"))
 o:depends("transport", "quic")
@@ -296,7 +279,7 @@ o:value("wechat-video", translate("WechatVideo"))
 o:value("dtls", "DTLS 1.2")
 o:value("wireguard", "WireGuard")
 
--- [[ mKCP部分 ]]--
+-- [[ mKCP閮ㄥ垎 ]]--
 
 o = s:option(ListValue, "kcp_guise", translate("Camouflage Type"))
 o:depends("transport", "kcp")

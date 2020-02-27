@@ -10,8 +10,8 @@ function index()
          entry({"admin", "vpn"}, firstchild(), "VPN", 45).dependent = false 
         entry({"admin", "vpn", "shadowsocksr"},alias("admin", "vpn", "shadowsocksr", "client"), _("ShadowSocksR Plus+"),10).dependent = true
         entry({"admin", "vpn", "shadowsocksr", "client"},cbi("shadowsocksr/client"),_("SSR Client"),10).leaf = true
-        entry({"admin", "vpn", "shadowsocksr", "servers"}, cbi("shadowsocksr/servers"), _("Severs Nodes"), 11).leaf = true
-        entry({"admin", "vpn", "shadowsocksr", "servers"},arcombine(cbi("shadowsocksr/servers"), cbi("shadowsocksr/client-config")),_("Severs Nodes"), 11).leaf = true
+        entry({"admin", "vpn", "shadowsocksr", "servers"}, cbi("shadowsocksr/servers"), _("Node List"), 11).leaf = true
+        entry({"admin", "vpn", "shadowsocksr", "servers"},arcombine(cbi("shadowsocksr/servers"), cbi("shadowsocksr/client-config")),_("Node List"), 11).leaf = true
 
  entry({"admin", "vpn", "shadowsocksr", "subscription"},cbi("shadowsocksr/subscription"), _("Subscription"),12).leaf = true
         entry({"admin", "vpn", "shadowsocksr", "control"},cbi("shadowsocksr/control"),_("Access Control"),13).leaf = true

@@ -18,7 +18,7 @@ Lean's luci-app-ssr-plus source (history):
 ## 说明
    源码来源：https://github.com/coolsnowwolf
 
-#### 建议搭配opentomato  opentomcat  theme，能有最好的显示体验。
+#### 建议搭配opentomato  opentomcat  theme，能有最好的显示体验。（兼容所有Argon魔改主题）
 
 theme : https://github.com/Leo-Jo-My/luci-theme-opentomato
 

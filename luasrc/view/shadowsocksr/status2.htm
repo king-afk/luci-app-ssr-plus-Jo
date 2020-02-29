@@ -87,7 +87,7 @@
    </div>
             </div>
             <div class="pure-u-5-8">
-               <h4 id="vssr_status"><%:Client%><br /><span class="red"><%:Not Running%></span></h4>
+               <h4 id="shadowsocksr_status"><%:Client%><br /><span class="red"><%:Not Running%></span></h4>
             </div>
         </div>
     </div>
@@ -156,7 +156,7 @@
 <script type="text/javascript">//<![CDATA[
     XHR.poll(5, '<%=url([[admin]], [[vpn]], [[shadowsocksr]], [[run]])%>', null,
             function (x, data) {
-                var tb = document.getElementById('vssr_status');
+                var tb = document.getElementById('shadowsocksr_status');
                 var tb1 = document.getElementById('google_status');
                 var tb2 = document.getElementById('baidu_status');
                 var tb3 = document.getElementById('ss_server_status');

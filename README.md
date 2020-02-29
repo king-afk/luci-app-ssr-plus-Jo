@@ -29,6 +29,9 @@ theme : https://github.com/Leo-Jo-My/luci-theme-opentomcat
     #下载源码
     
     git clone https://github.com/Leo-Jo-My/luci-app-ssr-plus-Jo package/luci-app-ssr-plus-Jo
+ 
+     git clone https://github.com/Leo-Jo-My/my package/my  #依赖包
+
     make menuconfig
     #编译
     make package/luci-app-ssr-plus-Jo/{clean,compile} V=s

@@ -136,7 +136,9 @@ o:value("ss", translate("Shadowsocks"))
 end
 o.description = translate("Using incorrect encryption mothod may causes service fail to start")
 
-
+upload_conf = s:option(FileUpload, "")	
+upload_conf.template = "cbi/other_upload2"	
+upload_conf:depends("use_conf_file", 1)	
 
 o = s:option(Value, "alias", translate("Alias(optional)"))
 
@@ -245,7 +247,7 @@ o:depends("type", "v2ray")
 
 -- [[ TCP部分 ]]--
 
--- TCP伪装
+-- TCP伪装
 o = s:option(ListValue, "tcp_guise", translate("Camouflage Type"))
 o:depends("transport", "tcp")
 o:value("none", translate("None"))
@@ -261,6 +263,7 @@ o.rmempty = true
 o = s:option(DynamicList, "http_path", translate("HTTP Path"))
 o:depends("tcp_guise", "http")
 o.rmempty = true
+
 
 -- [[ WS部分 ]]--
 
@@ -285,6 +288,7 @@ o.rmempty = true
 o = s:option(Value, "h2_path", translate("HTTP/2 Path"))
 o:depends("transport", "h2")
 o.rmempty = true
+
 
 -- [[ QUIC部分 ]]--
 
@@ -442,3 +446,4 @@ o:depends("type", "ss")
 end
 
 return m
+

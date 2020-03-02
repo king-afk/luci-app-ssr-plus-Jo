@@ -1,24 +1,26 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-ssr-plus-Jo
-PKG_VERSION:=1.41
-PKG_RELEASE:=8
+PKG_VERSION:=150
+PKG_RELEASE:=20200301-5
 PKG_CONFIG_DEPENDS:= CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_V2ray \
-	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Trojan \
+                CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Trojan \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Kcptun:kcptun \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Server \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Server \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Socks \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Socks \
+	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ipt2socks \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_dnscrypt_proxy \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_dnsforwarder \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ChinaDNS \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_haproxy \
+                 CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_udpspeeder \
+                 CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_udp2raw-tunnel \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_privoxy \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs\
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs-server\
-	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ipt2socks\
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_GoQuiet-client\
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_GoQuiet-server\
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_v2ray-plugin
@@ -33,10 +35,10 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks
 config PACKAGE_$(PKG_NAME)_INCLUDE_V2ray
 	bool "Include V2ray"
 	default y
-	
+
 config PACKAGE_$(PKG_NAME)_INCLUDE_Trojan
 	bool "Include Trojan"
-	default n	
+	default y
 	
 config PACKAGE_$(PKG_NAME)_INCLUDE_Kcptun
 	bool "Include Kcptun"
@@ -48,7 +50,7 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Server
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Server
 	bool "Include Shadowsocks Server"
-	default n
+	default y
 	
 config PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Socks
 	bool "Include ShadowsocksR Socks and Tunnel"
@@ -56,51 +58,59 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Socks
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Socks
 	bool "Include Shadowsocks Socks and Tunnel"
-	default n
-
-config PACKAGE_$(PKG_NAME)_INCLUDE_dnscrypt_proxy
-	bool "dnscrypt-proxy-full"
-	default n
-
-config PACKAGE_$(PKG_NAME)_INCLUDE_dnsforwarder
-	bool "dnsforwarder"
-	default n
-
-config PACKAGE_$(PKG_NAME)_INCLUDE_ChinaDNS
-	bool "chiandns"
-	default n
-
-config PACKAGE_$(PKG_NAME)_INCLUDE_haproxy
-	bool "haproxy"
-	default n
-
-config PACKAGE_$(PKG_NAME)_INCLUDE_privoxy
-	bool "privoxy http local"
-	default n
-
-config PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs
-	bool "simple-obfsl"
-	default n
+	default y
 	
-config PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs-server
-	bool "simple-obfs-server"
-	default n
-
 config PACKAGE_$(PKG_NAME)_INCLUDE_ipt2socks
 	bool "Include ipt2socks"
-	default n
+	default y	
+
+config PACKAGE_$(PKG_NAME)_INCLUDE_dnscrypt_proxy
+	bool "Include dnscrypt-proxy-full"
+	default y
+
+config PACKAGE_$(PKG_NAME)_INCLUDE_dnsforwarder
+	bool "Include dnsforwarder"
+	default y
+
+config PACKAGE_$(PKG_NAME)_INCLUDE_ChinaDNS
+	bool "Include chinadns"
+	default y
+
+config PACKAGE_$(PKG_NAME)_INCLUDE_haproxy
+	bool "Include haproxy"
+	default y
+
+config PACKAGE_$(PKG_NAME)_INCLUDE_privoxy
+	bool "Include privoxy http local"
+	default y
+
+config PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs
+	bool "Include simple-obfsl"
+	default y
+	
+config PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs-server
+	bool "Include simple-obfs-server"
+	default y
+	
+config PACKAGE_$(PKG_NAME)_INCLUDE_udpspeeder
+	bool "Include udpspeeder"
+	default y
+
+config PACKAGE_$(PKG_NAME)_INCLUDE_udp2raw-tunnel
+	bool "Include udp2raw-tunnel"
+	default y
 	
 config PACKAGE_$(PKG_NAME)_INCLUDE_GoQuiet-client
-	bool "GoQuiet-client"
-	default n
+	bool "Include GoQuiet-client"
+	default y
 	
 config PACKAGE_$(PKG_NAME)_INCLUDE_GoQuiet-server
-	bool "GoQuiet-server"
-	default n
+	bool "Include GoQuiet-server"
+	default y
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_v2ray-plugin
-	bool "v2ray-plugin"
-	default n
+	bool "Include v2ray-plugin"
+	default y
 endef
 
 define Package/luci-app-ssr-plus-Jo
@@ -109,25 +119,27 @@ define Package/luci-app-ssr-plus-Jo
 	SUBMENU:=3. Applications
 	TITLE:=SS/SSR/V2Ray LuCI interface
 	PKGARCH:=all
-	DEPENDS:=+shadowsocksr-libev-alt +ipset +ip-full +iptables-mod-tproxy +dnsmasq-full +coreutils +coreutils-base64 +bash +pdnsd-alt +curl +wget +unzip \
+	DEPENDS:=+shadowsocksr-libev-alt +ipset +ip-full +iptables-mod-tproxy +dnsmasq-full +coreutils +coreutils-base64 +bash +pdnsd-alt +luasocket +jshn +curl +wget +unzip \
             +PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks:shadowsocks-libev-ss-redir \
             +PACKAGE_$(PKG_NAME)_INCLUDE_V2ray:v2ray \
-	    +PACKAGE_$(PKG_NAME)_INCLUDE_Trojan:trojan \
+            +PACKAGE_$(PKG_NAME)_INCLUDE_Trojan:trojan \
             +PACKAGE_$(PKG_NAME)_INCLUDE_Kcptun:kcptun-client \
             +PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Server:shadowsocksr-libev-server \
             +PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Server:shadowsocks-libev-ss-server \
             +PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Socks:shadowsocksr-libev-ssr-local \
             +PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Socks:shadowsocks-libev-ss-local \
+            +PACKAGE_$(PKG_NAME)_INCLUDE_ipt2socks:ipt2socks \
             +PACKAGE_$(PKG_NAME)_INCLUDE_dnscrypt_proxy:dnscrypt-proxy-full \
             +PACKAGE_$(PKG_NAME)_INCLUDE_dnsforwarder:dnsforwarder \
             +PACKAGE_$(PKG_NAME)_INCLUDE_ChinaDNS:ChinaDNS \
             +PACKAGE_$(PKG_NAME)_INCLUDE_haproxy:haproxy \
             +PACKAGE_$(PKG_NAME)_INCLUDE_privoxy:privoxy \
+            +PACKAGE_$(PKG_NAME)_INCLUDE_udpspeeder:udpspeeder \
+            +PACKAGE_$(PKG_NAME)_INCLUDE_udp2raw-tunnel:udp2raw-tunnel \
             +PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs:simple-obfs \
             +PACKAGE_$(PKG_NAME)_INCLUDE_simple-obfs-server:simple-obfs-server \
-	    +PACKAGE_$(PKG_NAME)_INCLUDE_ipt2socks:ipt2socks \
             +PACKAGE_$(PKG_NAME)_INCLUDE_GoQuiet-client:gq-client \
-	    +PACKAGE_$(PKG_NAME)_INCLUDE_GoQuiet-server:gq-server \
+            +PACKAGE_$(PKG_NAME)_INCLUDE_GoQuiet-server:gq-server \
             +PACKAGE_$(PKG_NAME)_INCLUDE_v2ray-plugin:v2ray-plugin
 endef
 
@@ -143,7 +155,7 @@ define Package/luci-app-ssr-plus-Jo/install
 	$(INSTALL_DIR) $(1)/
 	cp -pR ./root/* $(1)/
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
-	cp -pR ./po/zh-cn/ssr-plus.zh-cn.lmo $(1)/usr/lib/lua/luci/i18n/ssr-plus.zh-cn.lmo
+	po2lmo ./po/zh-cn/ssr-plus.po $(1)/usr/lib/lua/luci/i18n/ssr-plus.zh-cn.lmo
 endef
 
 define Package/luci-app-ssr-plus-Jo/postinst

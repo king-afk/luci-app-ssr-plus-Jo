@@ -23,6 +23,8 @@ Lean's luci-app-ssr-plus source (history):
 theme : https://github.com/Leo-Jo-My/luci-theme-opentomato
 
 theme : https://github.com/Leo-Jo-My/luci-theme-opentomcat
+
+theme : https://github.com/Leo-Jo-My/luci-theme-Butterfly
    
 ## 使用方法
 ```Brach
@@ -36,5 +38,13 @@ theme : https://github.com/Leo-Jo-My/luci-theme-opentomcat
     #编译
     make package/luci-app-ssr-plus-Jo/{clean,compile} V=s
     
-
+## 原版使用方法
+```Brach
+    #下载源码
+    
+    git clone -b lean  https://github.com/Leo-Jo-My/luci-app-ssr-plus-Jo package/luci-app-ssr-plus-Jo
+ 
+    make menuconfig
+    #编译
+    make package/luci-app-ssr-plus-lean/{clean,compile} V=s
 

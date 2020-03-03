@@ -14,7 +14,7 @@ Lean's luci-app-ssr-plus source (history):
 <https://github.com/coolsnowwolf/lede/tree/2915c44a11ca0ee40b51ff5d9c18a0da1951e170/package/lean/luci-app-ssr-plus>
 
 # 加入lean原版建议重新fork源码 
-#### 拉取源码把luci-app-ssr-plus-Jo文件夹重命名luci-app-ssr-plus-lean
+
 
 # luci-app-ssr-plus-Jo
 
@@ -50,7 +50,7 @@ theme : https://github.com/Leo-Jo-My/luci-theme-Butterfly
 ```Brach
     #下载源码
     
-    git clone -b lean  https://github.com/Leo-Jo-My/luci-app-ssr-plus-Jo package/lean/luci-app-ssr-plus-Jo
+    git clone -b lean  https://github.com/Leo-Jo-My/luci-app-ssr-plus-Jo package/lean/luci-app-ssr-plus-lean
     
     git clone https://github.com/Leo-Jo-My/luci-theme-Butterfly package/luci-theme-Butterfly #主题包
     

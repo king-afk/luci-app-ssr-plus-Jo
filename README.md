@@ -27,7 +27,6 @@ theme : https://github.com/Leo-Jo-My/luci-theme-opentomcat
 theme : https://github.com/Leo-Jo-My/luci-theme-Butterfly
    
 ## 使用方法
-```Brach
     #下载源码
     
     git clone https://github.com/Leo-Jo-My/luci-app-ssr-plus-Jo package/luci-app-ssr-plus-Jo
@@ -42,7 +41,7 @@ theme : https://github.com/Leo-Jo-My/luci-theme-Butterfly
 ```Brach
     #下载源码
     
-    git clone -b lean  https://github.com/Leo-Jo-My/luci-app-ssr-plus-Jo package/luci-app-ssr-plus-Jo
+    git clone -b lean  https://github.com/Leo-Jo-My/luci-app-ssr-plus-Jo package/lean/luci-app-ssr-plus-Jo
  
     make menuconfig
     #编译

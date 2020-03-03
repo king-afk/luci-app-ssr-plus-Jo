@@ -13,6 +13,8 @@ Lean's luci-app-ssr-plus source (history):
 
 <https://github.com/coolsnowwolf/lede/tree/2915c44a11ca0ee40b51ff5d9c18a0da1951e170/package/lean/luci-app-ssr-plus>
 
+# 加入lean原版建议重新fork源码
+
 # luci-app-ssr-plus-Jo
 
 ## 说明

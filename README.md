@@ -15,9 +15,6 @@ Lean's luci-app-ssr-plus source (history):
 
 # 加入lean原版建议重新fork源码 
 
-
-# luci-app-ssr-plus-Jo
-
 ## 说明
    源码来源：https://github.com/coolsnowwolf
 
@@ -29,7 +26,7 @@ theme : https://github.com/Leo-Jo-My/luci-theme-opentomcat
 
 theme : https://github.com/Leo-Jo-My/luci-theme-Butterfly
 
-# luci-app-ssr-plus-lean
+# luci-app-ssr-plus-Jo
    
 ## 使用方法
     #下载源码
@@ -47,6 +44,8 @@ theme : https://github.com/Leo-Jo-My/luci-theme-Butterfly
     make menuconfig
     #编译
     make package/luci-app-ssr-plus-Jo/{clean,compile} V=s
+    
+# luci-app-ssr-plus-lean
     
 ## 原版使用方法
 ```Brach

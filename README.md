@@ -28,6 +28,8 @@ theme : https://github.com/Leo-Jo-My/luci-theme-opentomato
 theme : https://github.com/Leo-Jo-My/luci-theme-opentomcat
 
 theme : https://github.com/Leo-Jo-My/luci-theme-Butterfly
+
+# luci-app-ssr-plus-lean
    
 ## 使用方法
     #下载源码

@@ -11,6 +11,8 @@ msgstr "停用"
 msgid "Enable Servers"
 msgstr "开启服务"
 
+msgid "Enable Authentication"
+msgstr "启用 用户名/密码 认证"
 
 msgid "Open v2ray split-flow"
 msgstr "开启V2ray分流"
@@ -745,7 +747,7 @@ msgid "UDPspeeder Project"
 msgstr "UDPspeeder 项目"
 
 msgid "Appointlist List"
-msgstr "加速列表"
+msgstr "DNS列表"
 
 msgid "udp2raw tunnel"
 msgstr "UDP隧道"
@@ -853,4 +855,14 @@ msgstr "SS/SSR/V2RAY 服务端"
 msgid "Delete All Subscribe Severs"
 msgstr "删除所有订阅服务器节点"
 
+msgid "Update All Subscribe Severs"
+msgstr "更新所有订阅服务器节点"
 
+msgid "No special needs, please click here to subscribe to update"
+msgstr "没有特殊需要，请点击这里订阅更新"
+
+msgid "Running Details:"
+msgstr "进程详情："
+
+msgid "File Viewer"
+msgstr "文件查看器"
